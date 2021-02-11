@@ -182,13 +182,15 @@ def mae_prob_metric_fn(y_true: tf.Tensor, y_pred: tf.Tensor) -> tf.Tensor:
     return mae_tensor
 
 
-def build_model_fancy(seq_len,
-                      input_data_size_imu,
-                      input_data_size_mag,
-                      output_data_size,
-                      stateful=False):
+def build_model_fancy(seq_len: int,
+                      input_data_size_imu: int,
+                      input_data_size_mag: int,
+                      output_data_size: int,
+                      batch_size: int = None,
+                      stateful=False) -> Model:
     """this function build a model
 
+    :param batch_size: the batch size for the model, if not given will default to None
     :param seq_len: the size of the time step dimension
     :param input_data_size_imu: the data size of the input tensor for imu
     :param input_data_size_mag: the data size of the input tensor for mag
@@ -270,7 +272,8 @@ def main():
         model = build_model_fancy(seq_len=seq_len,
                                   input_data_size_imu=len(input_columns_imu),
                                   input_data_size_mag=len(input_columns_mag),
-                                  output_data_size=len(output_columns))
+                                  output_data_size=len(output_columns),
+                                  stateful=False)
 
         # train the model then save
 
@@ -281,6 +284,7 @@ def main():
                                        input_data_size_imu=len(input_columns_imu),
                                        input_data_size_mag=len(input_columns_mag),
                                        output_data_size=len(output_columns),
+                                       batch_size=1,
                                        stateful=True)
 
     # note that if you try the function load_model now since we used custom functions it will fail unless
