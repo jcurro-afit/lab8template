@@ -182,6 +182,27 @@ def mae_prob_metric_fn(y_true: tf.Tensor, y_pred: tf.Tensor) -> tf.Tensor:
     return mae_tensor
 
 
+def build_unscaled_mae_prob_metric_fn(output_bias, output_scaling):
+    """
+    Returns a function that calculates the unscaled mean absolute error
+
+    :param output_bias: the bias for the output
+    :param output_scaling: the scaling for the output
+    :return: the callable function
+    """
+    def mae_unscaled_prob_metric_fn(y_true: tf.Tensor, y_pred: tf.Tensor) -> tf.Tensor:
+        """Get the unscaled mean absolute error of the distance while ignoring the standard deviation
+
+        :param y_true: the true values
+        :param y_pred: the prediction but stored as the mean and standard deviation.
+        :return: the mean absolute error of the distance
+        """
+        mae_tensor: tf.Tensor
+        return mae_tensor
+
+    return mae_unscaled_prob_metric_fn
+
+
 def build_model_fancy(seq_len: int,
                       input_data_size_imu: int,
                       input_data_size_mag: int,
